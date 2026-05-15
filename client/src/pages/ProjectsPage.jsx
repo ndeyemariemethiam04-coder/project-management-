@@ -118,24 +118,24 @@ export default function ProjectsPage() {
           position: 'fixed', 
           top: 0, 
           left: 0, 
-          right: 0, 
-          bottom: 0, 
-          background: 'rgba(0,0,0,0.8)', 
+          width: '100vw', 
+          height: '100vh', 
+          background: 'rgba(0,0,0,0.9)', 
           display: 'flex', 
           alignItems: 'center', 
           justifyContent: 'center', 
-          zIndex: 10000, 
-          padding: '40px 20px',
-          backdropFilter: 'blur(10px)',
-          overflowY: 'auto'
+          zIndex: 99999, 
+          backdropFilter: 'blur(12px)',
         }}>
           <div className="glass fade-in" style={{ 
-            width: '100%', 
+            width: '90%', 
             maxWidth: '500px', 
             padding: '40px', 
             borderRadius: '32px', 
-            boxShadow: '0 20px 40px rgba(0,0,0,0.4)',
-            margin: 'auto' // Helps with centering in scrollable containers
+            boxShadow: '0 30px 60px rgba(0,0,0,0.6)',
+            maxHeight: '90vh',
+            overflowY: 'auto',
+            border: '1px solid rgba(255,255,255,0.1)'
           }}>
             <h2 style={{ fontSize: '2rem', marginBottom: '8px', fontWeight: '700' }}>New Project</h2>
             <p style={{ color: 'var(--text-muted)', marginBottom: '32px' }}>Fill in the details to start your new workspace.</p>
