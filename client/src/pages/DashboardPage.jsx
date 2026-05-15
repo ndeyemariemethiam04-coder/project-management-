@@ -4,11 +4,19 @@ import { Plus, Clock, CheckCircle2, ListTodo } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function DashboardPage() {
-  const { projects, fetchProjects, isLoading } = useProjectStore();
+  const { projects, fetchProjects, loading } = useProjectStore();
 
   useEffect(() => {
     fetchProjects();
   }, [fetchProjects]);
+
+  if (loading && projects.length === 0) {
+    return (
+      <div style={{ display: 'flex', height: '50vh', alignItems: 'center', justifyContent: 'center', color: 'var(--text-muted)' }}>
+        <div className="fade-in">Loading dashboard...</div>
+      </div>
+    );
+  }
 
   // Aggregate stats
   const stats = {

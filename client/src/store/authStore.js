@@ -9,15 +9,22 @@ const useAuthStore = create((set) => ({
 
   fetchMe: async () => {
     const token = localStorage.getItem('token');
-    if (!token) return;
-    set({ isLoading: true });
+    if (!token) {
+      if (get().isAuthenticated) set({ user: null, token: null, isAuthenticated: false });
+      return;
+    }
+    
+    // Only show loading if we don't have user data yet
+    if (!get().user) set({ isLoading: true });
+    
     try {
       const res = await api.get('/auth/me');
-      set({ user: res.data, isAuthenticated: true });
+      set({ user: res.data, token, isAuthenticated: true });
     } catch (err) {
+      console.error("fetchMe failed", err);
       localStorage.removeItem('token');
       localStorage.removeItem('user');
-      set({ user: null, isAuthenticated: false });
+      set({ user: null, token: null, isAuthenticated: false });
     } finally {
       set({ isLoading: false });
     }
@@ -45,6 +52,7 @@ const useAuthStore = create((set) => ({
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     set({ user: null, token: null, isAuthenticated: false });
+    // Optional: window.location.href = '/login'; // Force reload to clear all states
   }
 }));
 

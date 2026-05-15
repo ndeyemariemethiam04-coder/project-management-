@@ -1,8 +1,7 @@
 const express = require('express');
 const router = express.Router();
-const { PrismaClient } = require('@prisma/client');
+const prisma = require('../config/db');
 const { authenticate } = require('../middleware/auth.middleware');
-const prisma = new PrismaClient();
 
 router.post('/', authenticate, async (req, res) => {
   const session = await prisma.pomodoroSession.create({
