@@ -14,6 +14,8 @@ const excludePassword = (user) => {
 router.post('/register', async (req, res) => {
   try {
     let { name, email, password } = req.body;
+    console.log(`Registration attempt for: ${email}`);
+    
     email = email?.trim().toLowerCase();
     
     if (!name || !email || !password) {
@@ -23,6 +25,7 @@ router.post('/register', async (req, res) => {
     // Check if user already exists
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
+      console.log(`Registration failed: Email already exists: ${email}`);
       return res.status(400).json({ error: 'Email already registered' });
     }
 
@@ -31,10 +34,11 @@ router.post('/register', async (req, res) => {
       data: { name, email, password: hashed } 
     });
     
+    console.log(`User created successfully: ${email}`);
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'secret');
     res.status(201).json({ user: excludePassword(user), token });
   } catch (err) {
-    console.error('Registration error:', err);
+    console.error('CRITICAL Registration error:', err);
     res.status(500).json({ error: 'Registration failed. Please try again later.' });
   }
 });
