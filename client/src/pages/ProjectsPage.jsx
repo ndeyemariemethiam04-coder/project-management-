@@ -58,24 +58,52 @@ export default function ProjectsPage() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: '24px' }}>
         {projects.map(project => (
           <Link key={project.id} to={`/projects/${project.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
-            <div className="glass" style={{ padding: '24px', borderRadius: '24px', borderLeft: `8px solid ${project.color}`, position: 'relative' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '12px' }}>
-                <h3 style={{ fontSize: '1.3rem' }}>{project.name}</h3>
+            <div className="glass project-card" style={{ 
+              padding: '24px', 
+              borderRadius: '24px', 
+              borderTop: `4px solid ${project.color}`, 
+              position: 'relative',
+              transition: 'transform 0.2s, box-shadow 0.2s'
+            }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '16px' }}>
+                <h3 style={{ fontSize: '1.4rem', margin: 0, fontWeight: '600' }}>{project.name}</h3>
                 {project.myRole === 'OWNER' && (
-                  <button onClick={(e) => handleDelete(project.id, e)} style={{ background: 'transparent', color: 'var(--text-muted)' }}>
+                  <button 
+                    onClick={(e) => handleDelete(project.id, e)} 
+                    className="delete-btn"
+                    style={{ 
+                      background: 'rgba(239, 68, 68, 0.1)', 
+                      color: '#ef4444', 
+                      padding: '8px',
+                      borderRadius: '12px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.2s'
+                    }}
+                  >
                     <Trash2 size={18} />
                   </button>
                 )}
               </div>
-              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '24px', minHeight: '48px' }}>{project.description || 'Manage your team tasks here.'}</p>
+              
+              <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '32px', minHeight: '40px', lineHeight: '1.5' }}>
+                {project.description || 'No description provided.'}
+              </p>
               
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                   <div style={{ fontSize: '0.8rem', background: 'rgba(99, 102, 241, 0.1)', color: 'var(--primary)', padding: '4px 12px', borderRadius: '20px' }}>
-                    {project.myRole}
-                   </div>
+                <div style={{ 
+                  fontSize: '0.75rem', 
+                  fontWeight: '600',
+                  letterSpacing: '0.05em',
+                  background: project.myRole === 'OWNER' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.05)', 
+                  color: project.myRole === 'OWNER' ? 'var(--primary)' : 'var(--text-muted)', 
+                  padding: '4px 12px', 
+                  borderRadius: '12px',
+                  textTransform: 'uppercase'
+                }}>
+                  {project.myRole}
                 </div>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
+                <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '500' }}>
                   {project.columns?.reduce((acc, c) => acc + (c.tasks?.length || 0), 0) || 0} Tasks
                 </span>
               </div>
