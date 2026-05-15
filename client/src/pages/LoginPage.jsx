@@ -18,7 +18,9 @@ export default function LoginPage() {
       toast.success('Welcome back!');
       navigate('/');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Login failed');
+      console.error('Login failed:', error);
+      const message = error.response?.data?.error || 'Login failed. Check your connection.';
+      toast.error(message);
     } finally {
       setLoading(false);
     }

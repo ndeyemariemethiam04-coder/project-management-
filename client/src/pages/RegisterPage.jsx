@@ -19,7 +19,9 @@ export default function RegisterPage() {
       toast.success('Account created!');
       navigate('/');
     } catch (error) {
-      toast.error(error.response?.data?.error || 'Registration failed');
+      console.error('Registration failed:', error);
+      const message = error.response?.data?.error || 'Registration failed. Check your connection.';
+      toast.error(message);
     } finally {
       setLoading(false);
     }
