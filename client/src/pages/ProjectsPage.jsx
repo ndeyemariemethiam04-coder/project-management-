@@ -90,19 +90,7 @@ export default function ProjectsPage() {
                 {project.description || 'No description provided.'}
               </p>
               
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
-                <div style={{ 
-                  fontSize: '0.75rem', 
-                  fontWeight: '600',
-                  letterSpacing: '0.05em',
-                  background: project.myRole === 'OWNER' ? 'rgba(99, 102, 241, 0.15)' : 'rgba(255, 255, 255, 0.05)', 
-                  color: project.myRole === 'OWNER' ? 'var(--primary)' : 'var(--text-muted)', 
-                  padding: '4px 12px', 
-                  borderRadius: '12px',
-                  textTransform: 'uppercase'
-                }}>
-                  {project.myRole}
-                </div>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-end', paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
                 <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '500' }}>
                   {project.columns?.reduce((acc, c) => acc + (c.tasks?.length || 0), 0) || 0} Tasks
                 </span>
