@@ -107,23 +107,23 @@ export default function ProjectsPage() {
           left: 0, 
           right: 0, 
           bottom: 0, 
-          background: 'rgba(0,0,0,0.85)', 
+          background: 'rgba(0,0,0,0.8)', 
           display: 'flex', 
           justifyContent: 'center', 
-          alignItems: 'flex-start', // Change from center to flex-start
-          zIndex: 1000, 
-          padding: '40px 20px', 
-          overflowY: 'auto' // Allow scrolling if screen is too small
+          alignItems: 'center', 
+          zIndex: 10000, 
+          padding: '20px',
+          overflowY: 'auto'
         }}>
-          <div className="glass fade-in" style={{ 
+          <div className="glass" style={{ 
             width: '100%', 
             maxWidth: '500px', 
             padding: '32px', 
             borderRadius: '24px',
-            marginTop: '20px', // Add some space from the top
-            marginBottom: '40px'
+            backgroundColor: '#1a1b26', // Solid background to ensure visibility
+            border: '1px solid rgba(255,255,255,0.1)'
           }}>
-            <h2 style={{ marginBottom: '24px' }}>New Project</h2>
+            <h2 style={{ marginBottom: '24px', color: 'white' }}>New Project</h2>
             <form onSubmit={handleCreate}>
               <div style={{ marginBottom: '16px' }}>
                 <label style={{ display: 'block', marginBottom: '8px' }}>Project Name</label>
