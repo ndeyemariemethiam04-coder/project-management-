@@ -32,6 +32,11 @@ const useProjectStore = create((set, get) => ({
     return res.data;
   },
 
+  deleteProject: async (id) => {
+    await api.delete(`/projects/${id}`);
+    set({ projects: get().projects.filter(p => p.id !== id) });
+  },
+
   createTask: async (taskData) => {
     const res = await api.post('/tasks', taskData);
     // Refresh current project to show new task
