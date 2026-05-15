@@ -101,8 +101,28 @@ export default function ProjectsPage() {
       </div>
 
       {isModalOpen && (
-        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '20px' }}>
-          <div className="glass" style={{ width: '100%', maxWidth: '500px', padding: '32px', borderRadius: '24px' }}>
+        <div style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          bottom: 0, 
+          background: 'rgba(0,0,0,0.85)', 
+          display: 'flex', 
+          justifyContent: 'center', 
+          alignItems: 'flex-start', // Change from center to flex-start
+          zIndex: 1000, 
+          padding: '40px 20px', 
+          overflowY: 'auto' // Allow scrolling if screen is too small
+        }}>
+          <div className="glass fade-in" style={{ 
+            width: '100%', 
+            maxWidth: '500px', 
+            padding: '32px', 
+            borderRadius: '24px',
+            marginTop: '20px', // Add some space from the top
+            marginBottom: '40px'
+          }}>
             <h2 style={{ marginBottom: '24px' }}>New Project</h2>
             <form onSubmit={handleCreate}>
               <div style={{ marginBottom: '16px' }}>
