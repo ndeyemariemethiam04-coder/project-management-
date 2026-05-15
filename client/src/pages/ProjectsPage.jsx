@@ -21,7 +21,9 @@ export default function ProjectsPage() {
       setNewProject({ name: '', description: '', color: '#6366f1' });
       toast.success('Project created!');
     } catch (error) {
-      toast.error('Failed to create project');
+      console.error('Project creation failed:', error);
+      const message = error.response?.data?.error || 'Failed to create project';
+      toast.error(message);
     }
   };
 
