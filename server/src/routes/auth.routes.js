@@ -11,7 +11,7 @@ const excludePassword = (user) => {
   return userWithoutPassword;
 };
 
-router.post('/register', async (req, res) => {
+router.post('/register', async (req, res, next) => {
   try {
     let { name, email, password } = req.body;
     console.log(`Registration attempt for: ${email}`);
@@ -38,12 +38,11 @@ router.post('/register', async (req, res) => {
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'secret');
     res.status(201).json({ user: excludePassword(user), token });
   } catch (err) {
-    console.error('CRITICAL Registration error:', err);
-    res.status(500).json({ error: 'Registration failed. Please try again later.' });
+    next(err);
   }
 });
 
-router.post('/login', async (req, res) => {
+router.post('/login', async (req, res, next) => {
   try {
     let { email, password } = req.body;
     console.log(`Login attempt for: ${email}`);
@@ -71,8 +70,7 @@ router.post('/login', async (req, res) => {
     console.log(`Login successful for: ${email}`);
     res.json({ user: excludePassword(user), token });
   } catch (err) {
-    console.error('CRITICAL Login error:', err);
-    res.status(500).json({ error: 'Login failed due to a server error. Please check backend logs.' });
+    next(err);
   }
 });
 

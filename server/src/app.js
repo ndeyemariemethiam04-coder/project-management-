@@ -27,6 +27,13 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 
+// Global Request Logger
+app.use((req, res, next) => {
+    console.log(`🔍 ${req.method} ${req.url}`);
+    if (req.method === 'POST') console.log('📦 Body:', { ...req.body, password: '***' });
+    next();
+});
+
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectRoutes);
 app.use('/api/tasks', taskRoutes);
@@ -35,5 +42,11 @@ app.use('/api/pomodoro', pomodoroRoutes);
 app.use('/api/users', userRoutes);
 
 app.get('/api/health', (req, res) => res.json({ status: 'OK' }));
+
+// Global Error Handler
+app.use((err, req, res, next) => {
+    console.error('❌ SERVER ERROR:', err);
+    res.status(500).json({ error: 'Internal Server Error', details: err.message });
+});
 
 module.exports = app;
