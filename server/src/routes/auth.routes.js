@@ -15,9 +15,9 @@ router.post('/register', async (req, res, next) => {
   try {
     let { name, email, password } = req.body;
     console.log(`Registration attempt for: ${email}`);
-    
+
     email = email?.trim().toLowerCase();
-    
+
     if (!name || !email || !password) {
       return res.status(400).json({ error: 'All fields are required' });
     }
@@ -30,10 +30,10 @@ router.post('/register', async (req, res, next) => {
     }
 
     const hashed = await bcrypt.hash(password, 10);
-    const user = await prisma.user.create({ 
-      data: { name, email, password: hashed } 
+    const user = await prisma.user.create({
+      data: { name, email, password: hashed }
     });
-    
+
     console.log(`User created successfully: ${email}`);
     const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET || 'secret');
     res.status(201).json({ user: excludePassword(user), token });
@@ -46,7 +46,7 @@ router.post('/login', async (req, res, next) => {
   try {
     let { email, password } = req.body;
     console.log(`Login attempt for: ${email}`);
-    
+
     email = email?.trim().toLowerCase();
 
     if (!email || !password) {
@@ -54,7 +54,7 @@ router.post('/login', async (req, res, next) => {
     }
 
     const user = await prisma.user.findUnique({ where: { email } });
-    
+
     if (!user) {
       console.log(`User not found: ${email}`);
       return res.status(401).json({ error: 'Invalid email or password' });
