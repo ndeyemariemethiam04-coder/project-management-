@@ -2,18 +2,21 @@ const { PrismaClient } = require('@prisma/client');
 const path = require('path');
 
 let dbUrl;
+const isSqlite = true; // Set this to false if you ever switch the schema.prisma back to mysql
 
-if (process.env.DATABASE_URL && !process.env.DATABASE_URL.startsWith('file:')) {
-  // Use Production Database
+if (process.env.DATABASE_URL && process.env.DATABASE_URL.startsWith('file:')) {
+  // Use SQLite path from environment if provided
   dbUrl = process.env.DATABASE_URL;
-  console.log('🌐 Connecting to Production Database');
+  console.log('🌐 Connecting to Production SQLite Database');
+} else if (process.env.DATABASE_URL && !isSqlite) {
+  // Use Production MySQL/Postgres if we are NOT using SQLite schema
+  dbUrl = process.env.DATABASE_URL;
+  console.log('🌐 Connecting to Production MySQL/Postgres Database');
 } else {
-  // Use Local SQLite Database with encoded path for spaces
+  // Default to Local SQLite
   const dbPath = path.join(__dirname, '../../prisma/dev.db');
-  // Encode the path to handle spaces safely in the URL
-  const encodedPath = dbPath.split(path.sep).map(encodeURIComponent).join(path.sep);
-  dbUrl = `file:${dbPath}`; // Prisma actually prefers the raw path on disk for SQLite
-  console.log(`🏠 Connecting to Local SQLite: ${dbUrl}`);
+  dbUrl = `file:${dbPath}`;
+  console.log(`🏠 Using SQLite Database: ${dbUrl}`);
 }
 
 const prisma = new PrismaClient({
